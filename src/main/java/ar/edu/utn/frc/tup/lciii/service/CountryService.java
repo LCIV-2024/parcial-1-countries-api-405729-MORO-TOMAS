@@ -30,7 +30,7 @@ public class CountryService {
 
     @Autowired
     private final ModelMapper modelMapper;
-    private List<Country> CACHE_COUNTRY_LIST;
+    List<Country> CACHE_COUNTRY_LIST;
 
     public List<Country> getAllCountries() {
         if (CACHE_COUNTRY_LIST == null) {

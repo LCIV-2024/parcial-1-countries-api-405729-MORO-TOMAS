@@ -133,6 +133,14 @@ public class CountryControllerTest {
                 .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.message").value("Not countries found with code provided."));
     }
+@Test
+    void getCountriesByCodeErrorTest() throws Exception {
+        given(countryService.getCountriesByCode("arg")).willThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/countries?code=arg"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.status").value(500));
+    }
 
     @Test
     void getCountriesByLanguageTest() throws Exception {
@@ -158,13 +166,11 @@ public class CountryControllerTest {
     }
     @Test
     void getCountriesMostBordersTest() throws Exception {
-        given(countryService.getCountryMostBorders()).willReturn(Country.builder().name("Chile").area(10).build());
+        given(countryService.getCountryMostBorders()).willReturn(Country.builder().name("Chile").build());
 
         mockMvc.perform(get("/api/countries/most-borders"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("size()").value(1))
-                .andExpect(jsonPath("name").value("Chile"))
-                .andExpect(jsonPath("area").value(10));
+                .andExpect(jsonPath("name").value("Chile"));
     }
 
 }

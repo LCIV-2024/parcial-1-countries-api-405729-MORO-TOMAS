@@ -6,9 +6,12 @@ import ar.edu.utn.frc.tup.lciii.service.CountryService;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.web.client.RestTemplate;
@@ -19,12 +22,16 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class CountryServiceTest {
 
     @MockBean
     private CountryRepository repository;
+    @MockBean
+    private RestTemplate restTemplate;
     @MockBean
     private ModelMapper modelMapper;
     @InjectMocks
@@ -82,8 +89,7 @@ public class CountryServiceTest {
 
     @Test
     void getCountriesByNameTest() {
-        when(countryService.getAllCountries()).thenReturn(countries);
-
+        when(restTemplate.getForObject(any(),any())).thenReturn(countries);
         List<Country> countriesResult = countryService.getCountriesByName("arge");
 
         assertEquals(1, countriesResult.size());

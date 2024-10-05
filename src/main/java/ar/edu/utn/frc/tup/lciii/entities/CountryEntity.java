@@ -1,6 +1,9 @@
 package ar.edu.utn.frc.tup.lciii.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -15,8 +18,15 @@ import lombok.NoArgsConstructor;
 public class CountryEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column
+    private long population;
+    @Column
+    private double area;
+    @Column
     private String code;
-
-    private String name;
+    @Column
+    private String region;
 
 }
